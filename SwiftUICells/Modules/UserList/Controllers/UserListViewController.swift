@@ -10,26 +10,34 @@ import SwiftUI
 
 class UserListViewController: UIViewController {
     
-    private var users = [User(name: "Alex", isPremium: true), User(name: "Tom", isPremium: false), User(name: "Nick", isPremium: true)]
+    private let viewModel = UserListViewModel()
     
     private let tableView = UITableView()
-    private let refreshControl = UIRefreshControl()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        Task {
+            await loadUsers()
+        }
+        viewModel.onDataChange = { [weak self] in
+            DispatchQueue.main.async {
+                self?.tableView.reloadData()
+            }
+        }
         setupUI()
+        
     }
     
     private func setupUI() {
         view.backgroundColor = .systemBackground
         
-        tableView.register(UserTableViewCell.self, forCellReuseIdentifier: "UserTableViewCell")
         tableView.dataSource = self
-        tableView.refreshControl = refreshControl
+        tableView.delegate = self
+        tableView.register(UserListTableViewCell.self, forCellReuseIdentifier: "UserListTableViewCell")
         
         [tableView].forEach {
-            $0.translatesAutoresizingMaskIntoConstraints = false
             view.addSubview($0)
+            $0.translatesAutoresizingMaskIntoConstraints = false
         }
         
         NSLayoutConstraint.activate([
@@ -38,35 +46,48 @@ class UserListViewController: UIViewController {
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
-    }
-    
-    private func refreshAction() {
-        refreshControl.addTarget(self, action: #selector(reloadData), for: .valueChanged)
-    }
-    
-    @objc private func reloadData() {
-        tableView.reloadData()
-        refreshControl.endRefreshing()
         
     }
     
+    private func loadUsers() async {
+        await viewModel.fetchUsers()
+    }
+
 }
 
-extension UserListViewController: UITableViewDataSource {
+extension UserListViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return users.count
+        viewModel.users.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let bindingUser = Binding(
-            get: { self.users[indexPath.row] },
+        let bindingUser = Binding<User>(
+            get: {self.viewModel.users[indexPath.row]},
             set: {
-                self.users[indexPath.row] = $0
+                self.viewModel.users[indexPath.row] = $0
                 self.tableView.reloadRows(at: [indexPath], with: .automatic)
             }
         )
-        let cell = tableView.dequeueReusableCell(withIdentifier: "UserTableViewCell", for: indexPath) as! UserTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "UserListTableViewCell", for: indexPath) as! UserListTableViewCell
         cell.update(with: bindingUser)
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let bindingUser = Binding<User>(
+            get: { self.viewModel.users[indexPath.row] },
+            set: {
+                print("im in set binding")
+                print(self.viewModel.users[indexPath.row].name)
+                self.viewModel.users[indexPath.row] = $0
+                print(self.viewModel.users[indexPath.row].name)
+            }
+        )
+        let host = UIHostingController(rootView: DeteiledCellSwiftUIView(user: bindingUser, onSave: {
+            self.navigationController?.popViewController(animated: true)
+        }))
+        navigationController?.pushViewController(host, animated: true)
+        self.tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
 }
