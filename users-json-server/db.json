@@ -1,0 +1,24 @@
+{
+  "users": [
+    { "id": 1, "name": "Alex", "age": 28, "isPremium": true },
+    { "id": 2, "name": "Maria", "age": 31, "isPremium": false },
+    { "id": 3, "name": "Tom", "age": 25, "isPremium": true },
+    { "id": 4, "name": "Nina", "age": 29, "isPremium": false },
+    { "id": 5, "name": "Oleg", "age": 34, "isPremium": true },
+    { "id": 6, "name": "Sara", "age": 22, "isPremium": false },
+    { "id": 7, "name": "Victor", "age": 27, "isPremium": true },
+    { "id": 8, "name": "Lena", "age": 30, "isPremium": false },
+    { "id": 9, "name": "John", "age": 33, "isPremium": true },
+    { "id": 10, "name": "Anna", "age": 26, "isPremium": false },
+    { "id": 11, "name": "Igor", "age": 35, "isPremium": true },
+    { "id": 12, "name": "Kate", "age": 24, "isPremium": false },
+    { "id": 13, "name": "Leo", "age": 29, "isPremium": true },
+    { "id": 14, "name": "Olga", "age": 32, "isPremium": false },
+    { "id": 15, "name": "Denis", "age": 28, "isPremium": true },
+    { "id": 16, "name": "Eva", "age": 27, "isPremium": false },
+    { "id": 17, "name": "Pavel", "age": 31, "isPremium": true },
+    { "id": 18, "name": "Sofia", "age": 23, "isPremium": false },
+    { "id": 19, "name": "Max", "age": 26, "isPremium": true },
+    { "id": 20, "name": "Irina", "age": 30, "isPremium": false }
+  ]
+}
