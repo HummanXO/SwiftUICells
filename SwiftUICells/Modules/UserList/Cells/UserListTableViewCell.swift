@@ -20,11 +20,11 @@ class UserListTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func update(with binding: Binding<User>) {
+    func update(with observableObject: User) {
         if let host = host {
-            host.rootView = SwiftUIView(user: binding)
+            host.rootView = SwiftUIView(user: observableObject)
         } else {
-            let controller = UIHostingController(rootView: SwiftUIView(user: binding))
+            let controller = UIHostingController(rootView: SwiftUIView(user: observableObject))
             controller.view.backgroundColor = .clear
             host = controller
             

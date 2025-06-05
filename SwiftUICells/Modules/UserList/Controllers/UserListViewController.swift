@@ -61,29 +61,13 @@ extension UserListViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let bindingUser = Binding<User>(
-            get: {self.viewModel.users[indexPath.row]},
-            set: {
-                self.viewModel.users[indexPath.row] = $0
-                self.tableView.reloadRows(at: [indexPath], with: .automatic)
-            }
-        )
         let cell = tableView.dequeueReusableCell(withIdentifier: "UserListTableViewCell", for: indexPath) as! UserListTableViewCell
-        cell.update(with: bindingUser)
+        cell.update(with: self.viewModel.users[indexPath.row])
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let bindingUser = Binding<User>(
-            get: { self.viewModel.users[indexPath.row] },
-            set: {
-                print("im in set binding")
-                print(self.viewModel.users[indexPath.row].name)
-                self.viewModel.users[indexPath.row] = $0
-                print(self.viewModel.users[indexPath.row].name)
-            }
-        )
-        let host = UIHostingController(rootView: DeteiledCellSwiftUIView(user: bindingUser, onSave: {
+        let host = UIHostingController(rootView: DeteiledCellSwiftUIView(user: self.viewModel.users[indexPath.row], onSave: {
             self.navigationController?.popViewController(animated: true)
         }))
         navigationController?.pushViewController(host, animated: true)

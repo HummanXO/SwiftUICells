@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SwiftUIView: View {
-    @Binding var user: User
+    @ObservedObject var user: User
     var body: some View {
         HStack {
             Group {
@@ -58,7 +58,7 @@ struct SwiftUIView: View {
     }
 }
 
-#Preview {
-    let user = User(id: 1, name: "Alex", age: 22, isPremium: true)
-    SwiftUIView(user: .constant(user))
-}
+//#Preview {
+//    let user = User(id: 1, name: "Alex", age: 22, isPremium: true)
+//    SwiftUIView(user: .constant(user))
+//}

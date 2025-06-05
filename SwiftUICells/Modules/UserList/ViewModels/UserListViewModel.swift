@@ -26,9 +26,7 @@ class UserListViewModel {
         }
         do {
             let usersDTO = try await apiService.fetchUsers()
-            self.users = usersDTO.map { dto in
-                User(id: dto.id, name: dto.name, age: dto.age, isPremium: dto.isPremium)
-            }
+            self.users = usersDTO.map(User.init(from:))
         }
         catch {
             print(error.localizedDescription)

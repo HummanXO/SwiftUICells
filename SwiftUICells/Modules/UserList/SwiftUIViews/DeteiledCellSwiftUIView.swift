@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct DeteiledCellSwiftUIView: View {
-    @Binding var user: User
+    @ObservedObject var user: User
     var onSave: () -> Void
     var body: some View {
         ZStack {
@@ -80,7 +80,7 @@ struct DeteiledCellSwiftUIView: View {
     }
 }
 
-#Preview {
-    let user = User(id: 1, name: "Alex", age: 22, isPremium: true)
-    DeteiledCellSwiftUIView(user: .constant(user), onSave: {})
-}
+//#Preview {
+//    let user = User(id: 1, name: "Alex", age: 22, isPremium: true)
+//    DeteiledCellSwiftUIView(user: .constant(user), onSave: {})
+//}

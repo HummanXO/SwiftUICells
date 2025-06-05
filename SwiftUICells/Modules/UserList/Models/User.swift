@@ -19,4 +19,11 @@ class User: ObservableObject {
         self.age = age
         self.isPremium = isPremium
     }
+    
+    init(from dto: UserDTO) {
+        self.id = dto.id
+        self.name = dto.name
+        self.age = dto.age
+        self.isPremium = dto.isPremium
+    }
 }
