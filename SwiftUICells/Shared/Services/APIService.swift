@@ -30,7 +30,7 @@ enum APIError: Error, LocalizedError {
 struct APIService {
     let baseURL = "http://localhost:3000/users"
     
-    func fetchUsers() async throws -> [User] {
+    func fetchUsers() async throws -> [UserDTO] {
         guard
             let url = URL(string: baseURL)
         else {
@@ -54,7 +54,7 @@ struct APIService {
 //            }
             
             do {
-                return try JSONDecoder().decode([User].self, from: data)
+                return try JSONDecoder().decode([UserDTO].self, from: data)
             }
             catch {
                 throw APIError.decodingFailed
